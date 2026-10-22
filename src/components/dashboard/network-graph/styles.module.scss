@@ -1,0 +1,260 @@
+// ── Canvas ──
+
+.canvas {
+  position: relative;
+  height: 460px;
+  border-radius: $radius-12;
+  overflow: hidden;
+  background-color: var(--canvas-bg);
+  background-image: radial-gradient(circle, var(--canvas-dot) 1px, transparent 1px);
+  background-size: 24px 24px;
+  cursor: grab;
+  user-select: none;
+  border: 1px solid $color-border-subtle;
+
+  &:active { cursor: grabbing; }
+}
+
+.canvasEmpty {
+  height: 300px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: $radius-12;
+  background: var(--canvas-bg);
+  color: var(--canvas-text-sub);
+  font-size: 14px;
+  border: 1px solid $color-border-subtle;
+}
+
+.svg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.edge {
+  fill: none;
+  stroke: var(--canvas-edge);
+  stroke-width: 1.5;
+  stroke-dasharray: 6 5;
+}
+
+// ── Controls ──
+
+.controls {
+  position: absolute;
+  top: 14px;
+  left: 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  z-index: 10;
+}
+
+.controlBtn {
+  width: 34px;
+  height: 34px;
+  border: 1px solid var(--canvas-card-border);
+  border-radius: $radius-8;
+  background: var(--canvas-ctrl-bg);
+  color: var(--canvas-text);
+  font-size: 18px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  backdrop-filter: blur(8px);
+  transition: background 0.15s;
+
+  &:hover { background: var(--canvas-ctrl-hover); }
+}
+
+// ── FlowNode ──
+
+.flowNode {
+  width: 100%;
+  height: 100%;
+  padding: 16px 18px;
+  border: 1px solid var(--canvas-card-border);
+  border-radius: 12px;
+  background: var(--canvas-card-bg);
+  backdrop-filter: blur(12px);
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  box-sizing: border-box;
+  transition: border-color 0.2s;
+
+  &:hover { border-color: var(--canvas-card-hover); }
+}
+
+.projectNode {
+  border-color: var(--canvas-project-border);
+  background: var(--canvas-project-bg);
+
+  &:hover { border-color: var(--canvas-project-hover); }
+}
+
+.nodeHeader {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.statusDot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.nodeName {
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--canvas-text);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.nodeRole {
+  font-size: 13px;
+  color: var(--canvas-text-sub);
+  margin-top: 2px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.nodeFooter {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: auto;
+}
+
+.statusLine {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 13px;
+  color: var(--canvas-text-sub);
+}
+
+.modelBadge {
+  font-size: 11px;
+  font-weight: 600;
+  padding: 2px 7px;
+  border-radius: 6px;
+  background: var(--canvas-model-bg);
+  color: var(--canvas-model-color);
+  letter-spacing: 0.3px;
+}
+
+// ── Popup ──
+
+.popupOverlay {
+  position: fixed;
+  inset: 0;
+  background: var(--canvas-overlay);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 100;
+}
+
+.popup {
+  background: var(--canvas-popup-bg);
+  border: 1px solid var(--canvas-popup-border);
+  border-radius: 14px;
+  padding: 28px;
+  min-width: 340px;
+  max-width: 440px;
+  position: relative;
+  color: var(--canvas-text);
+}
+
+.popupClose {
+  position: absolute;
+  top: 14px;
+  right: 16px;
+  border: none;
+  background: none;
+  font-size: 22px;
+  color: var(--canvas-text-sub);
+  cursor: pointer;
+  line-height: 1;
+  padding: 0;
+
+  &:hover { color: var(--canvas-text); }
+}
+
+.popupTitle {
+  font-size: 20px;
+  font-weight: 600;
+  color: var(--canvas-text);
+  margin: 0 0 20px;
+}
+
+.popupDl {
+  display: grid;
+  grid-template-columns: 80px 1fr;
+  gap: 10px 14px;
+  margin: 0;
+  font-size: 14px;
+
+  dt {
+    color: var(--canvas-text-sub);
+    font-weight: 500;
+  }
+
+  dd {
+    color: var(--canvas-text);
+    margin: 0;
+  }
+}
+
+.popupTask {
+  margin-top: 18px;
+  padding-top: 14px;
+  border-top: 1px solid var(--canvas-popup-divider);
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.popupTaskLabel {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--canvas-text-sub);
+  letter-spacing: 0.5px;
+}
+
+.popupTaskName {
+  font-size: 15px;
+  font-weight: 500;
+  color: var(--canvas-text);
+}
+
+.popupTaskMeta {
+  font-size: 13px;
+  color: var(--canvas-text-sub);
+}
+
+.progressWrap {
+  margin-top: 18px;
+  height: 6px;
+  background: var(--canvas-progress-track);
+  border-radius: 3px;
+  overflow: hidden;
+}
+
+.progressBar {
+  height: 100%;
+  background: var(--canvas-progress-bar);
+  border-radius: 3px;
+  transition: width 0.3s;
+}

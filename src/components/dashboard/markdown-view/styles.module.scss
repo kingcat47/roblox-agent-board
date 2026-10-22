@@ -1,0 +1,83 @@
+.empty {
+  color: $color-text-subtle;
+  padding: $spacing-32;
+  text-align: center;
+  font-size: 15px;
+}
+
+.container {
+  color: $color-text;
+  font-size: 15px;
+  line-height: 1.7;
+  padding: $spacing-20 $spacing-24;
+
+  h1 { font-size: 24px; margin: 0 0 $spacing-12; font-weight: 600; }
+  h2 { font-size: 20px; margin: $spacing-24 0 $spacing-10; font-weight: 600; }
+  h3 { font-size: 16px; margin: $spacing-16 0 $spacing-8; font-weight: 600; }
+
+  p { margin: $spacing-6 0; }
+
+  ul, ol { padding-left: $spacing-20; margin: $spacing-6 0; }
+  li { margin: $spacing-4 0; }
+
+  code {
+    background: $color-surface-subtle;
+    padding: 1px 5px;
+    border-radius: $radius-4;
+    font-size: 14px;
+  }
+
+  pre {
+    background: $color-surface-subtle;
+    border: 1px solid $color-border-subtle;
+    border-radius: $radius-8;
+    padding: $spacing-14;
+    overflow-x: auto;
+    margin: $spacing-10 0;
+
+    code {
+      background: none;
+      padding: 0;
+    }
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: $spacing-10 0;
+    font-size: 14px;
+  }
+
+  th {
+    text-align: left;
+    padding: $spacing-8 $spacing-12;
+    font-weight: 600;
+    color: $color-text-subtle;
+    border-bottom: 2px solid $color-border;
+    font-size: 13px;
+  }
+
+  td {
+    padding: $spacing-8 $spacing-12;
+    border-bottom: 1px solid $color-border-subtle;
+  }
+
+  blockquote {
+    border-left: 3px solid $color-border;
+    padding: $spacing-6 $spacing-14;
+    margin: $spacing-10 0;
+    color: $color-text-subtle;
+  }
+
+  a {
+    color: $color-text-brand-heavy;
+    text-decoration: none;
+    &:hover { text-decoration: underline; }
+  }
+
+  hr {
+    border: none;
+    border-top: 1px solid $color-border-subtle;
+    margin: $spacing-16 0;
+  }
+}

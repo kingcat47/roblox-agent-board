@@ -1,0 +1,263 @@
+.navBackBtn {
+  border: none;
+  background: none;
+  color: $color-text-subtle;
+  font-size: 16px;
+  cursor: pointer;
+  padding: $spacing-2 $spacing-6;
+  border-radius: $radius-4;
+  font-family: inherit;
+
+  &:hover { background: $color-surface-subtle; color: $color-text; }
+}
+
+.breadcrumb {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: $spacing-2;
+  margin-bottom: $spacing-16;
+  font-size: 13px;
+}
+
+.breadcrumbItem {
+  border: none;
+  background: none;
+  padding: $spacing-2 $spacing-4;
+  cursor: pointer;
+  color: $color-text-brand-heavy;
+  font-family: inherit;
+  font-size: inherit;
+  border-radius: $radius-4;
+
+  &:hover { background: $color-surface-subtle; }
+}
+
+.breadcrumbCurrent {
+  color: $color-text;
+  font-weight: 600;
+  cursor: default;
+
+  &:hover { background: none; }
+}
+
+.breadcrumbSep {
+  display: inline-flex;
+  align-items: center;
+  gap: $spacing-2;
+}
+
+.breadcrumbSlash {
+  color: $color-text-subtle;
+  user-select: none;
+}
+
+.folderGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: $spacing-10;
+  margin-bottom: $spacing-20;
+}
+
+.folderCard {
+  display: flex;
+  align-items: center;
+  gap: $spacing-10;
+  padding: $spacing-12 $spacing-16;
+  border: 1px solid $color-border-subtle;
+  border-radius: $radius-8;
+  background: $color-surface;
+  cursor: pointer;
+  font-family: inherit;
+  text-align: left;
+  transition: border-color 0.15s;
+
+  &:hover { border-color: $color-text-brand; }
+}
+
+.folderIcon {
+  font-size: 18px;
+  flex-shrink: 0;
+}
+
+.folderName {
+  font-size: 14px;
+  font-weight: 500;
+  color: $color-text;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.searchBar {
+  display: flex;
+  align-items: center;
+  gap: $spacing-10;
+  margin-bottom: $spacing-16;
+}
+
+.searchInput {
+  flex: 1;
+  padding: $spacing-8 $spacing-12;
+  border: 1px solid $color-border;
+  border-radius: $radius-8;
+  font-size: 13px;
+  background: $color-surface;
+  color: $color-text;
+  outline: none;
+  font-family: inherit;
+
+  &::placeholder { color: $color-text-subtle; }
+  &:focus { border-color: $color-text-brand; }
+}
+
+.count {
+  font-size: 12px;
+  color: $color-text-subtle;
+  flex-shrink: 0;
+}
+
+.empty {
+  color: $color-text-subtle;
+  font-size: 13px;
+  padding: $spacing-32 0;
+  text-align: center;
+  margin: 0;
+}
+
+.list {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-8;
+}
+
+.prCard {
+  display: block;
+  width: 100%;
+  text-align: left;
+  padding: $spacing-14 $spacing-16;
+  border: 1px solid $color-border-subtle;
+  border-radius: $radius-8;
+  background: $color-surface;
+  cursor: pointer;
+  font-family: inherit;
+  transition: border-color 0.15s;
+
+  &:hover { border-color: $color-text-brand; }
+}
+
+.prTop {
+  display: flex;
+  align-items: center;
+  gap: $spacing-8;
+  margin-bottom: $spacing-4;
+}
+
+.prNumber {
+  font-size: 12px;
+  font-weight: 600;
+  color: $color-text-brand-heavy;
+  flex-shrink: 0;
+}
+
+.prTitle {
+  font-size: 14px;
+  font-weight: 500;
+  color: $color-text;
+  flex: 1;
+}
+
+.prSummary {
+  font-size: 12px;
+  color: $color-text-subtle;
+  margin: $spacing-4 0 $spacing-8;
+  line-height: 1.5;
+}
+
+.prBottom {
+  display: flex;
+  gap: $spacing-12;
+}
+
+.prMeta {
+  font-size: 11px;
+  color: $color-text-subtle;
+}
+
+.statusTag {
+  font-size: 11px;
+  font-weight: 500;
+  padding: 1px 6px;
+  border-radius: $radius-4;
+  flex-shrink: 0;
+}
+
+.merged {
+  background: color-mix(in srgb, var(--color-status-green) 12%, transparent);
+  color: $color-status-green;
+}
+
+.open {
+  background: $color-surface-brand-subtle;
+  color: $color-text-brand-heavy;
+}
+
+.rejected {
+  background: color-mix(in srgb, var(--color-status-red) 12%, transparent);
+  color: $color-status-red;
+}
+
+.backBtn {
+  border: none;
+  background: none;
+  color: $color-text-brand-heavy;
+  font-size: 13px;
+  cursor: pointer;
+  padding: 0;
+  margin-bottom: $spacing-16;
+  font-family: inherit;
+
+  &:hover { text-decoration: underline; }
+}
+
+.detailHeader {
+  margin-bottom: $spacing-20;
+  padding-bottom: $spacing-16;
+  border-bottom: 1px solid $color-border-subtle;
+}
+
+.detailTitle {
+  font-size: 20px;
+  font-weight: 600;
+  color: $color-text;
+  margin: $spacing-6 0 $spacing-8;
+}
+
+.detailMeta {
+  display: flex;
+  gap: $spacing-8;
+  font-size: 13px;
+  color: $color-text-subtle;
+  margin-bottom: $spacing-10;
+}
+
+.detailFiles {
+  display: flex;
+  flex-wrap: wrap;
+  gap: $spacing-6;
+}
+
+.fileTag {
+  font-size: 12px;
+  padding: 2px 8px;
+  background: $color-surface-subtle;
+  border-radius: $radius-4;
+  color: $color-text;
+}
+
+.detailBody {
+  background: $color-surface;
+  border: 1px solid $color-border-subtle;
+  border-radius: $radius-10;
+  padding: $spacing-24;
+}

@@ -1,0 +1,53 @@
+.filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: $spacing-6 $spacing-14;
+  margin-bottom: $spacing-12;
+  padding-bottom: $spacing-10;
+  border-bottom: 1px solid $color-border-subtle;
+}
+
+.filterLabel {
+  display: flex;
+  align-items: center;
+  gap: $spacing-4;
+  font-size: 13px;
+  color: $color-text;
+  cursor: pointer;
+  user-select: none;
+}
+
+.filterCheck {
+  accent-color: $color-text-brand-heavy;
+  cursor: pointer;
+}
+
+.container {
+  font-size: 14px;
+  line-height: 1.7;
+  max-height: 280px;
+  overflow-y: auto;
+}
+
+.empty { color: $color-text-subtle; font-size: 14px; margin: 0; padding: $spacing-12 0; }
+
+.entry {
+  padding: $spacing-4 0;
+  display: flex;
+  gap: $spacing-8;
+}
+
+.time {
+  color: $color-text-subtle;
+  font-size: 13px;
+  flex-shrink: 0;
+  min-width: 40px;
+}
+
+.msg { color: $color-text; }
+
+.error .msg { color: $color-status-red; }
+.success .msg { color: $color-status-green; }
+.info .msg { color: $color-text-brand-heavy; }
+.working .msg { color: $color-status-yellow; }
+.warning .msg { color: $color-status-orange; }

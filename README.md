@@ -1,38 +1,119 @@
-# React Template
+# Roblox Agent Board
 
-백엔드 개발자가 협업 전 프론트엔드 구조에 익숙해질 수 있도록 만든 템플릿.
+멀티에이전트 오케스트레이션 대시보드. Claude Code의 에이전트들이 `.agents/` 폴더에 마크다운 파일을 작성하면, 이 대시보드가 실시간으로 파싱해서 시각화합니다.
 
-프론트엔드에 익숙하지 않다면 [GUIDE_FOR_BACKEND.md](./GUIDE_FOR_BACKEND.md)를 참고하세요.
+## 구조
 
-## 사용 방법
+```
+Claude Code (/roblox-dev 스킬)
+  → .agents/ 폴더에 MD 파일 작성
+    → Express 서버가 파일시스템에서 읽음
+      → React 대시보드가 2초마다 폴링해서 표시
+```
+
+로컬 파일시스템 기반이라 외부 DB나 API 없이 동작합니다.
+
+## 화면 구성
+
+| 탭 | 설명 |
+|---|---|
+| 전체 현황 | 플로우차트 (에이전트 파이프라인), 에이전트 상태, 로그 |
+| 결정 근거 | PR 단위 근거 문서 목록/상세 |
+| 메모리 | 에이전트가 누적한 지식 (가이드라인, 구조, 교훈) |
+| 보고서 | 작업 완료 보고서 |
+| 운영 가이드 | 에이전트 스킬 원본 (MD 파싱 규칙, 폴더 구조 등) |
+
+- 프로젝트/작업별 폴더 네비게이션 (전체 현황 ~ 보고서)
+- 다크/라이트 테마 토글
+- 사이드바 접기/펼치기
+- 승인 요청 알림 (우측 상단, 모든 탭에서 표시)
+
+## 설치 및 실행
 
 ```bash
-npx create-oj-react my-project
-cd my-project
+# 의존성 설치
+npm install
+
+# 터미널 1: API 서버 (.agents/ 폴더 경로를 인자로)
+node server.cjs /path/to/.agents 4000
+
+# 터미널 2: 프론트엔드
 npm run dev
 ```
 
+프론트엔드는 `localhost:5173`, API 서버는 `localhost:4000`에서 실행됩니다. Vite 프록시 설정으로 `/api` 요청이 자동으로 서버로 전달됩니다.
+
+## .agents/ 폴더 구조
+
+에이전트가 이 구조대로 MD 파일을 작성하면 대시보드가 자동으로 인식합니다.
+
+```
+.agents/
+├── boards/
+│   └── {프로젝트}/
+│       └── {작업}/
+│           └── board.md          ← 실시간 작업 현황 (핵심)
+├── decisions/
+│   └── {프로젝트}/
+│       └── {작업}/
+│           └── PR-001.md         ← 코드 결정 근거
+├── memory/
+│   └── {프로젝트}/
+│       ├── 전역-컨벤션.md        ← 프로젝트 전역 지식
+│       └── {작업}/
+│           └── 작업별-지식.md    ← 작업 범위 지식
+└── reports/
+    └── {프로젝트}/
+        ├── 프로젝트-현황.md      ← 프로젝트 전역 보고서
+        └── {작업}/
+            └── 완료-보고서.md    ← 작업별 보고서
+```
+
+## board.md 형식
+
+대시보드가 파싱하는 핵심 파일입니다. 형식을 지켜야 정상 표시됩니다.
+
+```markdown
+- 현재 작업: 인벤토리 시스템
+- 시작: 14:30
+- 상태: Phase 4 - 개발
+
+## 에이전트 현황
+| 에이전트 | 역할 | 상태 | 작업 | 모델 |
+|---------|------|------|------|------|
+| Lead | 총괄 | 진행중 | 작업 배분 | opus |
+| Scout | 조사 | 완료 | - | haiku |
+| Worker-1 | UI | 작업중 | 인벤토리 UI | sonnet |
+
+## 작업 목록
+- [x] UI 레이아웃 (Worker-1, 완료)
+- [ ] DataStore 연동 (Worker-2, 진행중)
+
+## 승인 대기
+- ⚠️ Worker-2: 외부 호출 승인 필요
+
+## 로그
+- [14:30] Lead 작업 시작
+- [14:31] Worker-1 UI 작업 배정
+- [14:35] Worker-1 작업중: 슬롯 구현
+- [14:40] Worker-1 완료: UI 레이아웃
+```
+
+### 파싱 규칙
+
+- 에이전트 테이블 **5컬럼 필수** (에이전트 | 역할 | 상태 | 작업 | 모델)
+- 에이전트 이름 접두사로 플로우차트 자동 그룹핑: `Lead`, `Scout`, `Architect`, `Worker`, `Reviewer`
+- 로그 색상 자동 분류: 시작/배정 → 파란색, 작업중/진행 → 노란색, 완료 → 초록색, 실패 → 빨간색
+- `## 승인 대기` 항목은 모든 탭 우측 상단에 알림 카드로 표시
+
 ## 기술 스택
 
-- Vite 7 + React 19 + TypeScript
-- SCSS Modules
-- react-router-dom v7
-- lucide-react
-- Pretendard
+- React 19 + TypeScript + Vite
+- SCSS Modules + CSS Custom Properties (다크/라이트 테마)
+- Express (API 서버, 파일시스템 읽기 전용)
+- react-markdown + remark-gfm (마크다운 렌더링)
+- lucide-react (아이콘)
 
-## 프로젝트 구조
+## Claude Code 스킬 연동
 
-```
-src/
-  components/
-    ui/          # 재사용 가능한 UI 컴포넌트 (Button, Input 등)
-    layout/      # 페이지 레이아웃
-    only-page/   # 특정 페이지에서만 쓰는 컴포넌트
-  pages/         # 페이지 컴포넌트
-  hooks/         # 커스텀 훅
-  styles/        # 전역 스타일, 디자인 토큰
-  types/         # 타입 정의
-  utils/         # 유틸리티 함수
-  router.tsx     # 라우트 정의
-  main.tsx       # 앱 진입점
-```
+`~/.claude/commands/roblox-dev.md`에 스킬을 정의하면 `/roblox-dev [작업내용]`으로 실행할 수 있습니다. 대시보드의 "운영 가이드" 탭에서 이 스킬 파일의 내용을 확인할 수 있습니다.

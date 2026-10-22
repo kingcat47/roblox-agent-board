@@ -72,3 +72,6 @@ coverage/
 # Temporary folders
 tmp/
 temp/
+
+# Agent data (project-specific, not code)
+.agents/

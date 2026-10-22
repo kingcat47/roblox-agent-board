@@ -1,0 +1,120 @@
+.backBtn {
+  border: none;
+  background: none;
+  color: $color-text-subtle;
+  font-size: 16px;
+  cursor: pointer;
+  padding: $spacing-2 $spacing-6;
+  border-radius: $radius-4;
+  font-family: inherit;
+
+  &:hover { background: $color-surface-subtle; color: $color-text; }
+}
+
+.breadcrumb {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: $spacing-2;
+  margin-bottom: $spacing-16;
+  font-size: 13px;
+}
+
+.breadcrumbItem {
+  border: none;
+  background: none;
+  padding: $spacing-2 $spacing-4;
+  cursor: pointer;
+  color: $color-text-brand-heavy;
+  font-family: inherit;
+  font-size: inherit;
+  border-radius: $radius-4;
+
+  &:hover { background: $color-surface-subtle; }
+}
+
+.breadcrumbCurrent {
+  color: $color-text;
+  font-weight: 600;
+  cursor: default;
+
+  &:hover { background: none; }
+}
+
+.breadcrumbSep {
+  display: inline-flex;
+  align-items: center;
+  gap: $spacing-2;
+}
+
+.breadcrumbSlash {
+  color: $color-text-subtle;
+  user-select: none;
+}
+
+.folderGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: $spacing-10;
+  margin-bottom: $spacing-20;
+}
+
+.folderCard {
+  display: flex;
+  align-items: center;
+  gap: $spacing-10;
+  padding: $spacing-12 $spacing-16;
+  border: 1px solid $color-border-subtle;
+  border-radius: $radius-8;
+  background: $color-surface;
+  cursor: pointer;
+  font-family: inherit;
+  text-align: left;
+  transition: border-color 0.15s;
+
+  &:hover { border-color: $color-text-brand; }
+}
+
+.folderIcon {
+  font-size: 18px;
+  flex-shrink: 0;
+}
+
+.folderName {
+  font-size: 14px;
+  font-weight: 500;
+  color: $color-text;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.fileList {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-16;
+}
+
+.fileCard {
+  border: 1px solid $color-border-subtle;
+  border-radius: $radius-10;
+  background: $color-surface;
+  overflow: hidden;
+}
+
+.fileHeader {
+  padding: $spacing-10 $spacing-16;
+  font-size: 13px;
+  font-weight: 600;
+  color: $color-text;
+  background: $color-surface-subtle;
+  border-bottom: 1px solid $color-border-subtle;
+}
+
+.empty {
+  color: $color-text-subtle;
+  font-size: 13px;
+  padding: $spacing-32 0;
+  text-align: center;
+  margin: 0;
+}

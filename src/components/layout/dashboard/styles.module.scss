@@ -1,0 +1,14 @@
+.layout {
+  display: flex;
+  height: 100vh;
+  background: $color-surface;
+  color: $color-text;
+  overflow: hidden;
+  transition: background 0.2s, color 0.2s;
+}
+
+.main {
+  flex: 1;
+  overflow-y: auto;
+  padding: $spacing-24;
+}

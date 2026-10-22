@@ -1,0 +1,284 @@
+.pageTitle {
+  font-size: 24px;
+  font-weight: 600;
+  color: $color-text;
+  margin: 0 0 $spacing-16;
+}
+
+// ── Breadcrumb ──
+
+.breadcrumb {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: $spacing-2;
+  margin-bottom: $spacing-24;
+  font-size: 14px;
+}
+
+.backBtn {
+  border: none;
+  background: none;
+  color: $color-text-subtle;
+  font-size: 18px;
+  cursor: pointer;
+  padding: $spacing-2 $spacing-6;
+  border-radius: $radius-4;
+  font-family: inherit;
+
+  &:hover { background: $color-surface-subtle; color: $color-text; }
+}
+
+.breadcrumbItem {
+  border: none;
+  background: none;
+  padding: $spacing-2 $spacing-4;
+  cursor: pointer;
+  color: $color-text-brand-heavy;
+  font-family: inherit;
+  font-size: inherit;
+  border-radius: $radius-4;
+
+  &:hover { background: $color-surface-subtle; }
+}
+
+.breadcrumbCurrent {
+  color: $color-text;
+  font-weight: 600;
+  cursor: default;
+
+  &:hover { background: none; }
+}
+
+.breadcrumbSlash {
+  color: $color-text-subtle;
+  margin: 0 $spacing-2;
+  user-select: none;
+}
+
+// ── Folder grid ──
+
+.folderGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: $spacing-12;
+  margin-bottom: $spacing-24;
+}
+
+.folderCard {
+  display: flex;
+  align-items: center;
+  gap: $spacing-12;
+  padding: $spacing-16 $spacing-20;
+  border: 1px solid $color-border-subtle;
+  border-radius: $radius-10;
+  background: $color-surface;
+  cursor: pointer;
+  font-family: inherit;
+  text-align: left;
+  transition: border-color 0.15s;
+
+  &:hover { border-color: $color-text-brand; }
+}
+
+.folderIcon { font-size: 24px; flex-shrink: 0; }
+.folderName { font-size: 16px; font-weight: 500; color: $color-text; }
+
+// ── Approval toast ──
+
+.approvalStack {
+  position: fixed;
+  top: $spacing-20;
+  right: $spacing-24;
+  z-index: 200;
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-8;
+  max-width: 380px;
+}
+
+.approvalCard {
+  display: flex;
+  align-items: flex-start;
+  gap: $spacing-10;
+  padding: $spacing-14 $spacing-16;
+  background: $color-surface;
+  border: 1px solid $color-status-orange;
+  border-radius: $radius-10;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+  font-size: 14px;
+  line-height: 1.5;
+  color: $color-text;
+  animation: slideIn 0.25s ease-out;
+}
+
+.approvalDot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: $color-status-orange;
+  flex-shrink: 0;
+  margin-top: 6px;
+}
+
+.approvalText {
+  flex: 1;
+}
+
+@keyframes slideIn {
+  from { opacity: 0; transform: translateX(20px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+
+// ── Sections ──
+
+.section { margin-bottom: $spacing-32; }
+
+.sectionHeader {
+  font-size: 15px;
+  font-weight: 600;
+  color: $color-text;
+  margin-bottom: $spacing-12;
+}
+
+.sectionBody {
+  background: $color-surface;
+  border: 1px solid $color-border-subtle;
+  border-radius: $radius-10;
+  padding: $spacing-16 $spacing-20;
+}
+
+.emptyState {
+  color: $color-text-subtle;
+  padding: $spacing-48;
+  text-align: center;
+  font-size: 15px;
+}
+
+// ── PR list ──
+
+.searchBar {
+  display: flex;
+  align-items: center;
+  gap: $spacing-10;
+  margin-bottom: $spacing-16;
+}
+
+.searchInput {
+  flex: 1;
+  padding: $spacing-10 $spacing-14;
+  border: 1px solid $color-border;
+  border-radius: $radius-8;
+  font-size: 14px;
+  background: $color-surface;
+  color: $color-text;
+  outline: none;
+  font-family: inherit;
+
+  &::placeholder { color: $color-text-subtle; }
+  &:focus { border-color: $color-text-brand; }
+}
+
+.searchCount { font-size: 13px; color: $color-text-subtle; flex-shrink: 0; }
+
+.prList { display: flex; flex-direction: column; gap: $spacing-8; }
+
+.prCard {
+  display: block;
+  width: 100%;
+  text-align: left;
+  padding: $spacing-14 $spacing-16;
+  border: 1px solid $color-border-subtle;
+  border-radius: $radius-8;
+  background: $color-surface;
+  cursor: pointer;
+  font-family: inherit;
+  transition: border-color 0.15s;
+
+  &:hover { border-color: $color-text-brand; }
+}
+
+.prTop { display: flex; align-items: center; gap: $spacing-8; margin-bottom: $spacing-4; }
+.prNumber { font-size: 13px; font-weight: 600; color: $color-text-brand-heavy; flex-shrink: 0; }
+.prTitle { font-size: 15px; font-weight: 500; color: $color-text; flex: 1; }
+.prSummary { font-size: 13px; color: $color-text-subtle; margin: $spacing-4 0 $spacing-8; line-height: 1.5; }
+.prBottom { display: flex; gap: $spacing-12; }
+.prMeta { font-size: 12px; color: $color-text-subtle; }
+
+.statusTag {
+  font-size: 12px;
+  font-weight: 500;
+  padding: 2px 8px;
+  border-radius: $radius-4;
+  flex-shrink: 0;
+}
+
+.merged { background: color-mix(in srgb, var(--color-status-green) 12%, transparent); color: $color-status-green; }
+.open { background: $color-surface-brand-subtle; color: $color-text-brand-heavy; }
+.rejected { background: color-mix(in srgb, var(--color-status-red) 12%, transparent); color: $color-status-red; }
+
+// ── PR detail ──
+
+.textBtn {
+  border: none;
+  background: none;
+  color: $color-text-brand-heavy;
+  font-size: 14px;
+  cursor: pointer;
+  padding: 0;
+  margin-bottom: $spacing-16;
+  font-family: inherit;
+
+  &:hover { text-decoration: underline; }
+}
+
+.prDetailHeader {
+  margin-bottom: $spacing-20;
+  padding-bottom: $spacing-16;
+  border-bottom: 1px solid $color-border-subtle;
+}
+
+.prDetailTitle {
+  font-size: 22px;
+  font-weight: 600;
+  color: $color-text;
+  margin: $spacing-6 0 $spacing-8;
+}
+
+.prDetailMeta {
+  display: flex;
+  gap: $spacing-8;
+  font-size: 14px;
+  color: $color-text-subtle;
+  margin-bottom: $spacing-10;
+}
+
+.prDetailFiles { display: flex; flex-wrap: wrap; gap: $spacing-6; }
+
+.fileTag {
+  font-size: 13px;
+  padding: 2px 8px;
+  background: $color-surface-subtle;
+  border-radius: $radius-4;
+  color: $color-text;
+}
+
+// ── Markdown file list ──
+
+.mdFileList { display: flex; flex-direction: column; gap: $spacing-16; }
+
+.mdFileCard {
+  border: 1px solid $color-border-subtle;
+  border-radius: $radius-10;
+  background: $color-surface;
+  overflow: hidden;
+}
+
+.mdFileHeader {
+  padding: $spacing-10 $spacing-16;
+  font-size: 14px;
+  font-weight: 600;
+  color: $color-text;
+  background: $color-surface-subtle;
+  border-bottom: 1px solid $color-border-subtle;
+}

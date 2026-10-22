@@ -1,0 +1,54 @@
+.list { list-style: none; padding: 0; margin: $spacing-12 0 0; }
+.empty { color: $color-text-subtle; font-size: 13px; padding: $spacing-16 0; margin: 0; }
+
+.progress {
+  display: flex;
+  align-items: center;
+  gap: $spacing-10;
+}
+
+.progressBar {
+  flex: 1;
+  height: 4px;
+  background: $color-surface-subtle;
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+.progressFill {
+  height: 100%;
+  background: $color-text-brand;
+  border-radius: 2px;
+  transition: width 0.4s ease;
+}
+
+.progressText {
+  font-size: 12px;
+  font-weight: 500;
+  color: $color-text-subtle;
+  min-width: 32px;
+  text-align: right;
+}
+
+.item {
+  padding: $spacing-8 0;
+  border-bottom: 1px solid $color-border-subtle;
+  display: flex;
+  align-items: center;
+  gap: $spacing-10;
+  font-size: 13px;
+
+  &:last-child { border-bottom: none; }
+}
+
+.done .name {
+  color: $color-text-subtle;
+  text-decoration: line-through;
+}
+
+.fail .name {
+  color: $color-status-red;
+}
+
+.name { flex: 1; color: $color-text; }
+.meta { color: $color-text-subtle; font-size: 12px; }

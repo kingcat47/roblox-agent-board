@@ -1,0 +1,69 @@
+.list {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-6;
+}
+
+.empty {
+  color: $color-text-subtle;
+  padding: $spacing-24;
+  font-size: 14px;
+}
+
+.card {
+  display: flex;
+  align-items: center;
+  gap: $spacing-12;
+  padding: $spacing-10 $spacing-14;
+  border: 1px solid $color-border-subtle;
+  border-radius: $radius-8;
+  background: $color-surface;
+}
+
+.completed { border-left: 3px solid $color-status-green; }
+.running { border-left: 3px solid $color-text-brand; }
+.failed { border-left: 3px solid $color-status-red; }
+.retrying { border-left: 3px solid $color-status-orange; }
+.waiting { border-left: 3px solid $color-status-yellow; }
+.idle { border-left: 3px solid $color-border; }
+
+.emoji {
+  font-size: 16px;
+  flex-shrink: 0;
+  line-height: 1;
+}
+
+.name {
+  font-weight: 600;
+  font-size: 14px;
+  color: $color-text;
+  min-width: 90px;
+}
+
+.role {
+  flex: 1;
+  font-size: 13px;
+  color: $color-text-subtle;
+  margin: 0;
+}
+
+.task {
+  font-size: 13px;
+  color: $color-text-subtle;
+  margin: 0;
+}
+
+.badge {
+  padding: 2px 8px;
+  border-radius: $radius-4;
+  font-size: 12px;
+  font-weight: 500;
+  flex-shrink: 0;
+}
+
+.badgeCompleted { background: color-mix(in srgb, var(--color-status-green) 12%, transparent); color: $color-status-green; }
+.badgeRunning { background: $color-surface-brand-subtle; color: $color-text-brand-heavy; }
+.badgeFailed { background: color-mix(in srgb, var(--color-status-red) 12%, transparent); color: $color-status-red; }
+.badgeRetrying { background: color-mix(in srgb, var(--color-status-orange) 12%, transparent); color: $color-status-orange; }
+.badgeWaiting { background: color-mix(in srgb, var(--color-status-yellow) 12%, transparent); color: $color-status-yellow; }
+.badgeIdle { background: $color-surface-subtle; color: $color-text-subtle; }

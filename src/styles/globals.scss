@@ -1,5 +1,104 @@
 @import url("https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard-dynamic-subset.min.css");
 
+// ── Light theme (default) ──
+:root {
+  --color-text: #151515;
+  --color-text-subtle: #7D7D7D;
+  --color-text-white: #FFFFFF;
+  --color-text-brand: #45C1FF;
+  --color-text-brand-heavy: #0D8FCF;
+  --color-text-brand-subtle: #EAF8FF;
+
+  --color-surface: #FFFFFF;
+  --color-surface-subtle: #F5F5F5;
+  --color-surface-brand: #45C1FF;
+  --color-surface-brand-heavy: #0D8FCF;
+  --color-surface-brand-subtle: #EAF8FF;
+
+  --color-border: #E8E8E8;
+  --color-border-subtle: #EFEFEF;
+
+  --color-status-green: #22C55E;
+  --color-status-yellow: #EAB308;
+  --color-status-red: #EF4444;
+  --color-status-orange: #F97316;
+  --color-status-purple: #A855F7;
+
+  --shadow: 0px 1px 2px 0px rgba(0, 0, 0, 0.07);
+
+  // canvas (flow chart)
+  --canvas-bg: #F8F8FA;
+  --canvas-dot: rgba(0, 0, 0, 0.08);
+  --canvas-card-bg: #FFFFFF;
+  --canvas-card-border: #E8E8E8;
+  --canvas-card-hover: #D0D0D0;
+  --canvas-text: #151515;
+  --canvas-text-sub: #7D7D7D;
+  --canvas-edge: rgba(0, 0, 0, 0.12);
+  --canvas-ctrl-bg: rgba(255, 255, 255, 0.9);
+  --canvas-ctrl-hover: rgba(0, 0, 0, 0.05);
+  --canvas-project-border: rgba(13, 143, 207, 0.3);
+  --canvas-project-bg: rgba(13, 143, 207, 0.05);
+  --canvas-project-hover: rgba(13, 143, 207, 0.45);
+  --canvas-model-bg: rgba(13, 143, 207, 0.1);
+  --canvas-model-color: #0D8FCF;
+  --canvas-popup-bg: #FFFFFF;
+  --canvas-popup-border: #E8E8E8;
+  --canvas-popup-divider: #EFEFEF;
+  --canvas-progress-track: #EFEFEF;
+  --canvas-progress-bar: #0D8FCF;
+  --canvas-overlay: rgba(0, 0, 0, 0.3);
+}
+
+// ── Dark theme ──
+:root.dark {
+  --color-text: #E8E8E8;
+  --color-text-subtle: #888888;
+  --color-text-white: #FFFFFF;
+  --color-text-brand: #5DCCFF;
+  --color-text-brand-heavy: #7DD8FF;
+  --color-text-brand-subtle: #1A3040;
+
+  --color-surface: #141418;
+  --color-surface-subtle: #1E1E24;
+  --color-surface-brand: #45C1FF;
+  --color-surface-brand-heavy: #0D8FCF;
+  --color-surface-brand-subtle: #17283A;
+
+  --color-border: #2A2A30;
+  --color-border-subtle: #222228;
+
+  --color-status-green: #34D672;
+  --color-status-yellow: #F0C020;
+  --color-status-red: #F06060;
+  --color-status-orange: #FF8830;
+  --color-status-purple: #B86EF7;
+
+  --shadow: 0px 1px 4px 0px rgba(0, 0, 0, 0.4);
+
+  --canvas-bg: #0F0D17;
+  --canvas-dot: rgba(255, 255, 255, 0.06);
+  --canvas-card-bg: rgba(255, 255, 255, 0.04);
+  --canvas-card-border: rgba(255, 255, 255, 0.08);
+  --canvas-card-hover: rgba(255, 255, 255, 0.16);
+  --canvas-text: rgba(255, 255, 255, 0.88);
+  --canvas-text-sub: rgba(255, 255, 255, 0.42);
+  --canvas-edge: rgba(255, 255, 255, 0.10);
+  --canvas-ctrl-bg: rgba(15, 13, 23, 0.8);
+  --canvas-ctrl-hover: rgba(255, 255, 255, 0.08);
+  --canvas-project-border: rgba(129, 140, 248, 0.25);
+  --canvas-project-bg: rgba(129, 140, 248, 0.06);
+  --canvas-project-hover: rgba(129, 140, 248, 0.4);
+  --canvas-model-bg: rgba(129, 140, 248, 0.12);
+  --canvas-model-color: rgba(165, 180, 252, 0.9);
+  --canvas-popup-bg: #1A1825;
+  --canvas-popup-border: rgba(255, 255, 255, 0.1);
+  --canvas-popup-divider: rgba(255, 255, 255, 0.08);
+  --canvas-progress-track: rgba(255, 255, 255, 0.06);
+  --canvas-progress-bar: #818CF8;
+  --canvas-overlay: rgba(0, 0, 0, 0.5);
+}
+
 body, html {
     margin: 0;
     padding: 0;
@@ -20,6 +119,6 @@ h1, h2, h3, h4, h5, h6, p {
 }
 
 * {
-    -ms-overflow-style: none;  /* IE and Edge */
-    scrollbar-width: none;  /* Firefox */
+    -ms-overflow-style: none;
+    scrollbar-width: none;
 }
