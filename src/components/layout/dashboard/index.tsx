@@ -1,6 +1,7 @@
 import { useState, useEffect, useCallback } from "react";
 import { Outlet } from "react-router-dom";
 import Sidebar from "@/components/dashboard/sidebar";
+import type { EngineType } from "@/components/dashboard/sidebar";
 import styles from "./styles.module.scss";
 
 export type ViewType = "overview" | "decisions" | "memory" | "reports" | "guide";
@@ -8,6 +9,7 @@ export type ViewType = "overview" | "decisions" | "memory" | "reports" | "guide"
 export default function DashboardLayout() {
   const [view, setView] = useState<ViewType>("overview");
   const [collapsed, setCollapsed] = useState(false);
+  const [engine, setEngine] = useState<EngineType>("roblox");
   const [dark, setDark] = useState(() => {
     return localStorage.getItem("theme") === "dark";
   });
@@ -28,9 +30,11 @@ export default function DashboardLayout() {
         onToggle={() => setCollapsed((c) => !c)}
         dark={dark}
         onThemeToggle={toggleTheme}
+        engine={engine}
+        onEngineChange={setEngine}
       />
       <main className={styles.main}>
-        <Outlet context={{ view, setView }} />
+        <Outlet context={{ view, setView, engine }} />
       </main>
     </div>
   );

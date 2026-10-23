@@ -6,6 +6,7 @@ import LogStream from "@/components/dashboard/log-stream";
 import MarkdownView from "@/components/dashboard/markdown-view";
 import NetworkGraph from "@/components/dashboard/network-graph";
 import type { ViewType } from "@/components/layout/dashboard";
+import type { EngineType } from "@/components/dashboard/sidebar";
 import styles from "./Dashboard.module.scss";
 
 interface DirData {
@@ -54,15 +55,19 @@ function parsePR(file: DirData["files"][0]): PRMeta {
 
 // ── Shared hooks ──
 
-function useDirData(endpoint: string, path: string[]) {
+function useDirData(endpoint: string, path: string[], extraParams?: Record<string, string>) {
   const [data, setData] = useState<DirData>({ folders: [], files: [] });
+  const extraKey = extraParams ? JSON.stringify(extraParams) : "";
   const fetchDir = useCallback(async () => {
     try {
-      const q = path.length > 0 ? `?path=${encodeURIComponent(path.join("/"))}` : "";
+      const params = new URLSearchParams();
+      if (path.length > 0) params.set("path", path.join("/"));
+      if (extraParams) Object.entries(extraParams).forEach(([k, v]) => params.set(k, v));
+      const q = params.toString() ? `?${params.toString()}` : "";
       const res = await fetch(`${endpoint}${q}`);
       setData(await res.json());
     } catch { /* */ }
-  }, [endpoint, path]);
+  }, [endpoint, path, extraKey]);
 
   useEffect(() => {
     fetchDir();
@@ -75,8 +80,8 @@ function useDirData(endpoint: string, path: string[]) {
 
 // ── Tab Views (no folder nav, just content at current path) ──
 
-function OverviewContent({ path }: { path: string[] }) {
-  const { files } = useDirData("/api/boards", path);
+function OverviewContent({ path, engine }: { path: string[]; engine: EngineType }) {
+  const { files } = useDirData("/api/boards", path, { engine });
   const boardFile = files.find((f) => f.filename === "board.md");
   const board = useMemo(() => (boardFile ? parseBoard(boardFile.content) : null), [boardFile]);
 
@@ -182,22 +187,22 @@ function DecisionsContent({ path }: { path: string[] }) {
   );
 }
 
-function GuideContent() {
+function GuideContent({ engine }: { engine: EngineType }) {
   const [content, setContent] = useState("");
   const [exists, setExists] = useState(false);
 
   useEffect(() => {
-    fetch("/api/guide")
+    fetch(`/api/guide?engine=${engine}`)
       .then((r) => r.json())
       .then((data) => { setContent(data.content || ""); setExists(data.exists); })
       .catch(() => {});
-  }, []);
+  }, [engine]);
 
   if (!exists) return <p className={styles.emptyState}>운영 가이드 파일을 찾을 수 없습니다</p>;
 
   return (
     <div className={styles.mdFileCard}>
-      <div className={styles.mdFileHeader}>roblox-dev.md</div>
+      <div className={styles.mdFileHeader}>{engine}-dev.md</div>
       <MarkdownView content={content} />
     </div>
   );
@@ -233,20 +238,30 @@ const TAB_TITLES: Record<ViewType, string> = {
 // ── Dashboard (shared path + folder nav) ──
 
 export default function Dashboard() {
-  const { view } = useOutletContext<{ view: ViewType }>();
+  const { view, engine } = useOutletContext<{ view: ViewType; engine: EngineType }>();
   const [path, setPath] = useState<string[]>([]);
 
+  // Reset path when engine changes
+  useEffect(() => { setPath([]); }, [engine]);
+
   // Folder structure from boards (canonical source)
-  const boardsDir = useDirData("/api/boards", path);
+  const boardsDir = useDirData("/api/boards", path, { engine });
   const hasFolders = boardsDir.folders.length > 0;
   const hasBoardFile = boardsDir.files.some((f) => f.filename === "board.md");
 
-  // Approvals from board (shown on all tabs)
-  const boardFile = boardsDir.files.find((f) => f.filename === "board.md");
-  const approvals = useMemo(() => {
-    if (!boardFile) return [];
-    return parseBoard(boardFile.content).approvals;
-  }, [boardFile]);
+  // Approvals from ALL boards (shown globally on all tabs)
+  const [approvals, setApprovals] = useState<{ text: string; path: string }[]>([]);
+  useEffect(() => {
+    const fetchApprovals = async () => {
+      try {
+        const res = await fetch("/api/approvals");
+        setApprovals(await res.json());
+      } catch { /* */ }
+    };
+    fetchApprovals();
+    const id = setInterval(fetchApprovals, 2000);
+    return () => clearInterval(id);
+  }, []);
 
   return (
     <>
@@ -255,7 +270,10 @@ export default function Dashboard() {
           {approvals.map((a, i) => (
             <div key={i} className={styles.approvalCard}>
               <span className={styles.approvalDot} />
-              <span className={styles.approvalText}>{a.replace(/^⚠️?\s*/, "")}</span>
+              <div className={styles.approvalBody}>
+                <span className={styles.approvalPath}>{a.path}</span>
+                <span className={styles.approvalText}>{a.text.replace(/^⚠️?\s*/, "")}</span>
+              </div>
             </div>
           ))}
         </div>
@@ -264,7 +282,7 @@ export default function Dashboard() {
       <h2 className={styles.pageTitle}>{TAB_TITLES[view]}</h2>
 
       {view === "guide" ? (
-        <GuideContent />
+        <GuideContent engine={engine} />
       ) : (
         <>
           <nav className={styles.breadcrumb}>
@@ -303,7 +321,7 @@ export default function Dashboard() {
 
           {(hasBoardFile || !hasFolders) && (
             <>
-              {view === "overview" && <OverviewContent path={path} />}
+              {view === "overview" && <OverviewContent path={path} engine={engine} />}
               {view === "decisions" && <DecisionsContent path={path} />}
               {view === "memory" && <MarkdownContent endpoint="/api/memory" path={path} />}
               {view === "reports" && <MarkdownContent endpoint="/api/reports" path={path} />}

@@ -121,6 +121,19 @@
   margin-top: 6px;
 }
 
+.approvalBody {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  gap: 2px;
+}
+
+.approvalPath {
+  font-size: 11px;
+  color: $color-text-subtle;
+  font-weight: 500;
+}
+
 .approvalText {
   flex: 1;
 }
@@ -261,6 +274,34 @@
   background: $color-surface-subtle;
   border-radius: $radius-4;
   color: $color-text;
+}
+
+// ── Guide tabs ──
+
+.guideTabs {
+  display: flex;
+  gap: $spacing-8;
+  margin-bottom: $spacing-16;
+}
+
+.guideTab {
+  padding: $spacing-8 $spacing-16;
+  border: 1px solid $color-border-subtle;
+  border-radius: $radius-8;
+  background: transparent;
+  color: $color-text-subtle;
+  font-size: 14px;
+  cursor: pointer;
+  font-family: inherit;
+  transition: all 0.15s;
+
+  &:hover { border-color: $color-text-brand; color: $color-text; }
+}
+
+.guideTabActive {
+  border-color: $color-text-brand;
+  background: $color-surface-brand-subtle;
+  color: $color-text-brand-heavy;
 }
 
 // ── Markdown file list ──

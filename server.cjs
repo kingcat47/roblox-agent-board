@@ -127,8 +127,26 @@ app.get("/api/reports", (req, res) => {
   res.json({ folders, files });
 });
 
+// Check if a directory contains any board.md with matching engine (recursive)
+function hasEngine(dir, engine) {
+  if (!fs.existsSync(dir)) return false;
+  const entries = fs.readdirSync(dir, { withFileTypes: true });
+  for (const e of entries) {
+    const full = path.join(dir, e.name);
+    if (e.isDirectory() && hasEngine(full, engine)) return true;
+    if (e.name === "board.md") {
+      const content = fs.readFileSync(full, "utf-8");
+      const m = content.match(/엔진:\s*(.+)/);
+      const boardEngine = m ? m[1].trim().toLowerCase() : "";
+      if (!engine || boardEngine === engine.toLowerCase()) return true;
+    }
+  }
+  return false;
+}
+
 app.get("/api/boards", (req, res) => {
   const subpath = (req.query.path || "").replace(/\.\./g, "");
+  const engine = (req.query.engine || "").toLowerCase();
   const dirPath = path.join(AGENTS_DIR, "boards", subpath);
 
   if (!fs.existsSync(dirPath) || !fs.statSync(dirPath).isDirectory()) {
@@ -137,11 +155,17 @@ app.get("/api/boards", (req, res) => {
   }
 
   const entries = fs.readdirSync(dirPath, { withFileTypes: true });
-  const folders = entries
+  let folders = entries
     .filter((e) => e.isDirectory())
     .map((e) => e.name)
     .sort();
-  const files = entries
+
+  // Filter folders by engine if specified
+  if (engine) {
+    folders = folders.filter((f) => hasEngine(path.join(dirPath, f), engine));
+  }
+
+  let files = entries
     .filter((e) => e.isFile() && e.name.endsWith(".md"))
     .sort((a, b) => a.name.localeCompare(b.name))
     .map((e) => ({
@@ -151,23 +175,79 @@ app.get("/api/boards", (req, res) => {
       mtime: fs.statSync(path.join(dirPath, e.name)).mtimeMs,
     }));
 
+  // Filter board files by engine if specified
+  if (engine) {
+    files = files.filter((f) => {
+      const m = f.content.match(/엔진:\s*(.+)/);
+      return m && m[1].trim().toLowerCase() === engine;
+    });
+  }
+
   res.json({ folders, files });
 });
 
-app.get("/api/guide", (_, res) => {
-  const guideLocations = [
-    path.join(require("os").homedir(), ".claude", "commands", "roblox-dev.md"),
-  ];
-  for (const loc of guideLocations) {
-    if (fs.existsSync(loc)) {
-      return res.json({
-        content: fs.readFileSync(loc, "utf-8"),
-        source: loc,
-        exists: true,
-      });
+// Scan ALL board.md files recursively for 승인 대기 items
+function findAllApprovals(dir) {
+  const results = [];
+  if (!fs.existsSync(dir)) return results;
+
+  function walk(d, rel) {
+    const entries = fs.readdirSync(d, { withFileTypes: true });
+    for (const e of entries) {
+      const full = path.join(d, e.name);
+      if (e.isDirectory()) {
+        walk(full, rel ? `${rel}/${e.name}` : e.name);
+      } else if (e.name === "board.md") {
+        const content = fs.readFileSync(full, "utf-8");
+        const lines = content.split("\n");
+        let inApproval = false;
+        for (const line of lines) {
+          if (line.startsWith("## 승인 대기")) { inApproval = true; continue; }
+          if (inApproval && line.startsWith("## ")) break;
+          if (inApproval && line.trim().startsWith("- ")) {
+            results.push({ text: line.trim().replace(/^-\s*/, ""), path: rel || "" });
+          }
+        }
+      }
     }
   }
-  res.json({ content: "", source: "", exists: false });
+
+  walk(dir, "");
+  return results;
+}
+
+app.get("/api/approvals", (_, res) => {
+  res.json(findAllApprovals(path.join(AGENTS_DIR, "boards")));
+});
+
+app.get("/api/guide", (req, res) => {
+  const engine = (req.query.engine || "").toLowerCase();
+  const commandsDir = path.join(require("os").homedir(), ".claude", "commands");
+  const guides = {
+    roblox: path.join(commandsDir, "roblox-dev.md"),
+    unity: path.join(commandsDir, "unity-dev.md"),
+  };
+
+  if (engine && guides[engine] && fs.existsSync(guides[engine])) {
+    return res.json({
+      content: fs.readFileSync(guides[engine], "utf-8"),
+      source: guides[engine],
+      engine,
+      exists: true,
+    });
+  }
+
+  const available = Object.entries(guides)
+    .filter(([, p]) => fs.existsSync(p))
+    .map(([name, p]) => ({
+      engine: name,
+      content: fs.readFileSync(p, "utf-8"),
+      source: p,
+      exists: true,
+    }));
+
+  if (available.length > 0) return res.json(available[0]);
+  res.json({ content: "", source: "", engine: "", exists: false });
 });
 
 app.get("/api/status", (_, res) => {

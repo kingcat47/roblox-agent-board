@@ -17,6 +17,7 @@ interface BoardData {
   phase: string;
   taskName: string;
   startTime: string;
+  engine: string;
   agents: { name: string; role: string; status: string; task: string; model?: string }[];
   tasks: { name: string; meta: string; done: boolean; failed: boolean }[];
   approvals: string[];
@@ -28,6 +29,7 @@ export function parseBoard(content: string): BoardData {
     phase: "",
     taskName: "",
     startTime: "",
+    engine: "",
     agents: [],
     tasks: [],
     approvals: [],
@@ -50,6 +52,10 @@ export function parseBoard(content: string): BoardData {
     if (line.includes("상태:") && !section) {
       const m = line.match(/상태:\s*(.+)/);
       if (m) result.phase = m[1].trim();
+    }
+    if (line.includes("엔진:") && !section) {
+      const m = line.match(/엔진:\s*(.+)/);
+      if (m) result.engine = m[1].trim();
     }
 
     if (line.includes("## 에이전트 현황")) { section = "agents"; continue; }

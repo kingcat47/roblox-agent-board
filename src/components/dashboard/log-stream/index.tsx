@@ -16,9 +16,14 @@ function logType(msg: string): string {
   return "";
 }
 
+const AGENT_PREFIXES = ["Lead", "Scout", "Architect", "Worker", "Reviewer"];
+
 function extractAgent(msg: string): string | null {
   const match = msg.match(/^([\w-]+)/);
-  return match ? match[1] : null;
+  if (!match) return null;
+  const name = match[1];
+  if (AGENT_PREFIXES.some((p) => name.startsWith(p))) return name;
+  return null;
 }
 
 export default function LogStream({ logs }: { logs: LogEntry[] }) {
@@ -28,8 +33,7 @@ export default function LogStream({ logs }: { logs: LogEntry[] }) {
   const agents = useMemo(() => {
     const set = new Set<string>();
     logs.forEach((l) => {
-      const a = extractAgent(l.msg);
-      if (a) set.add(a);
+      set.add(extractAgent(l.msg) ?? "Lead");
     });
     return [...set].sort();
   }, [logs]);
@@ -37,8 +41,8 @@ export default function LogStream({ logs }: { logs: LogEntry[] }) {
   const filtered = useMemo(() => {
     if (unchecked.size === 0) return logs;
     return logs.filter((l) => {
-      const a = extractAgent(l.msg);
-      return !a || !unchecked.has(a);
+      const a = extractAgent(l.msg) ?? "Lead";
+      return !unchecked.has(a);
     });
   }, [logs, unchecked]);
 
